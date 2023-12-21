@@ -12,8 +12,11 @@ function Draft() {
       );
       if (response.ok) {
         const data = await response.json();
-        setBlogs(data);
-        handleSearch(data);
+        const draftedData=data.filter((product) =>
+        product.status==="draft"
+      );
+        setBlogs(draftedData);
+        handleSearch(draftedData);
       } else {
         console.error("Failed to fetch blogs");
       }
@@ -24,10 +27,11 @@ function Draft() {
 
   const handleSearch = (data) => {
     const filteredList = data.filter((product) =>
-      product.status==="draft"
+      product.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
     setFilterBlogs(filteredList);
   };
+
 
   useEffect(() => {
     getBlogs();

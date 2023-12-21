@@ -12,8 +12,11 @@ function Status() {
       );
       if (response.ok) {
         const data = await response.json();
-        setBlogs(data);
-        handleSearch(data);
+        const draftedData=data.filter((product) =>
+        product.status==="published"
+      );
+        setBlogs(draftedData);
+        handleSearch(draftedData);
       } else {
         console.error("Failed to fetch blogs");
       }
@@ -24,7 +27,7 @@ function Status() {
 
   const handleSearch = (data) => {
     const filteredList = data.filter((product) =>
-      product.status==="published"
+      product.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
     setFilterBlogs(filteredList);
   };
